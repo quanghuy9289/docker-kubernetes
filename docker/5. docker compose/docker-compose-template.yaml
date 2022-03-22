@@ -1,0 +1,133 @@
+version: "3.7"
+
+# KHAI BÁO CÁC DỊCH VỤ
+services:
+  # TÊN DỊCH VỤ
+  web:                     
+    # TÊN IMAGE TẠO TẠO CONTAINER                       
+    image: busybox                                
+    ## DÙNG IMAGE BUILD TỪ DOCKERFILE
+    # build: 
+    #   dockerfile: Dockerfile
+    #   context: ./web
+
+    # ÁNH XẠ CỔNG MÁY HOST VÀO CỔNG CONTAINER
+    ports:                                       
+      - 8099:80
+
+    # MỞ CỔNG, KHÔNG ÁNH XẠ HOST, DÙNG NỘI BỘ MẠNG  
+    # expose:
+    #   - "3000"
+
+    ## CHÍNH SÁCH KHỞI ĐỘNG
+    restart: always
+
+    # Nối vào mạng network1
+    networks:
+      - network1
+
+  
+
+    ## Thêm hoặc bỏ các quyền (Capability) trong container
+    ## http://man7.org/linux/man-pages/man7/capabilities.7.html  
+    # cap_add:
+    #   - ALL
+    # cap_drop:
+    #   - NET_ADMIN
+    #   - SYS_ADMIN
+    
+    # cap quyen root
+    # privileged: true
+    
+    
+    ## Ghi đè  entrypoint
+    # entrypoint: /code/entrypoint.sh
+
+    ## Ghi đè CMD mặc định nếu cần
+    # command: ["bash", "ls"]
+
+    ## ĐẶT TÊN CONTAINER 
+    container_name: my-container
+
+    ## THÊM BIẾN MÔI TRƯỜNG
+    # environment:
+    #   - TEN_BIEN1=giatri1
+    #   - TEN_BIEN2=giatri2
+
+    ## THÊM DỮ LIỆU HOST, TƯƠNG ĐƯƠNG KHAI BÁO TRONG /etc/hosts
+    # extra_hosts:
+    #    - "example.com:192.168.1.55"
+ 
+
+    ## GẮN Ổ ĐĨA, THƯ MỤC VÀO CONTAINER
+    # volumes:
+    #   - /opt/data:/var/lib/mysql      
+    #   - data3:/var/lib/mysql
+
+    ## THIẾT LẬP LOG
+    logging:
+        options:
+          max-size: "1m"
+          max-file: "2"
+    
+    ## CẤU HÌNH DNS
+    dns: 8.8.8.8      
+
+    # CẤU HÌNH NẾU TRÊN SWARM
+    deploy:
+      replicas: 6                       # Số lượng container cho dịch vụ
+      # placement:
+      #   constraints:
+      #       - node.role == manager    # Chỉ chạy ở node manager
+      resources:                        # Thiết lập tài nguyên
+        limits:                         # Giới hạn tài nguyên
+          cpus: '0.50'                  # 50% của 1 Core
+          memory: 50M 
+        reservations:                   # Tài nguyên tối thiểu
+          cpus: '0.25'
+          memory: 20M
+          
+      restart_policy:
+        condition: on-failure
+
+#  ---------------------------------------------------------------------------------------
+# KHAI BÁO VOLUME
+volumes:
+  # volume không tạo mới, sử dụng volume đã có data1
+  data1:
+    external: true
+  # volume không tạo mới, sử dụng volume đã có data-abc
+  data2:
+    external:
+      name: data-abc
+  # tạo volume local
+  data3:
+  # tạo volume có ánh xạ đường dẫn
+  data4:
+    driver: local
+    driver_opts:
+      type: none
+      device: "/path/to/dir"
+      o: bind
+  # tạo volume mount từ NFS    
+  data5:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.1.1,rw
+      device: ":/path/to/dir"
+#  ---------------------------------------------------------------------------------------
+# KHAI BÁO MẠNG
+networks:
+  # Tạo mạng cầu
+  network1:
+    driver: bridge
+
+  # Mạng lấy bên ngoài, network2 là networkxyz đã có
+  network2:
+      external:
+        name: networkxyz  
+  # Tạo mạng overlay trên swam
+  network3:
+    driver: overlay
+    name: my-overlay
