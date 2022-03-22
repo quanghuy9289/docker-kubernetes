@@ -40,7 +40,7 @@ Thêm thư mục, file vào Image
 
 > ADD source target
 
-- `source`: là thư mục ở máy chạy Dockerfile, chứa data cần add vào container
+- `source`: là thư mục ở máy chạy Dockerfile, chứa data cần add vào container. Nếu dùng `.` thì nó sẽ ở thư mục hiện hành với Dockerfile
 - `target`: là thư mục trong container, nơi data được add vào
 
 ### ENV

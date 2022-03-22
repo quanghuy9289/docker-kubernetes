@@ -14,7 +14,7 @@ RUN yum install epel-release -y \
     && yum install htop -y \
     && yum install vim -y
 
-#Thiết lập thư mục hiện tại
+#Thiết lập thư mục hiện tại trong container (auto cd tới folder này khi start container)
 WORKDIR /var/www/html
 # Copy tất cả các file trong thư mục hiện tại (.) vào WORKDIR
 ADD . /var/www/html
@@ -26,5 +26,5 @@ EXPOSE 80
 # Khi chạy container tự động chạy ngay httpd
 ENTRYPOINT ["/usr/sbin/httpd"]
 
-#chạy terminate
+#chạy terminate, làm tham số cho lệnh ENTRYPOINT ở trên
 CMD ["-D", "FOREGROUND"]
