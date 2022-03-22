@@ -13,3 +13,5 @@ Nếu muốn copy image ra máy khác có 2 cách:
 - `myimage`: image muốn lưu ra file
 
 ## Load image file vào docker
+
+> docker load -i myimage.tar

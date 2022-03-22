@@ -14,7 +14,7 @@
 
 ### Xóa một image (không có container nào đang dùng)
 
-> docker images rm imageid
+> docker image rm imageid
 
 ### Tải về một image (imagename) từ hub.docker.com
 
@@ -37,6 +37,10 @@ Ignore tag will get the latest image
 ### Đổi tên image
 
 > docker tag image-id imagename:version
+
+### Show the history of an image
+
+> docker image history
 
 ---
 
@@ -72,6 +76,10 @@ Ignore tag will get the latest image
 ### Chạy một lệnh trên container đang chạy
 
 > docker exec -it containerid command
+
+### Restart lại container đã exit
+
+> docker restart containerid
 
 ### Tạo image từ container
 
