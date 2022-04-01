@@ -1,1 +1,0 @@
-{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/Users/huyngo/Projects/devOps/docker-kubernetes/examples/kubernetes-cluster/kubernetes-centos7/master","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}

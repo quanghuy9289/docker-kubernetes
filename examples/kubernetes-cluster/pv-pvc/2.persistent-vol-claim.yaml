@@ -5,7 +5,7 @@ metadata:
   labels:
     name: pvc1
 spec:
-  storageClassName: mystorageclass
+  storageClassName: mystorageclass # find PV with correspond storage class name
   accessModes:
     - ReadWriteOnce
   resources:
