@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app
+  namespace: nginx-ingress
+spec:
+  tls:
+    - hosts:
+        - quanghuy9289.lab
+      secretName: default-server-secret
+
+  defaultBackend:
+    service:
+      name: http-test-svc
+      port:
+        number: 80
+    # - hosts:
+    #   - otherdomain.coms
+    #   secretName: otherssl-ssl
+  rules:
+    - host: quanghuy9289.lab
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              # dịch vụ phục vụ tương ứng với tên miền và path
+              service:
+                name: http-test-svc
+                port:
+                  number: 80
